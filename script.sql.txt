@@ -3,41 +3,69 @@ CREATE SCHEMA `db_olimpiada`;
 use db_olimpiada;
 
 CREATE TABLE `db_olimpiada`.`tb_athlets` (
-  `id_athlete` INT NOT NULL AUTO_INCREMENT,
   `name_athlete` VARCHAR(45) NOT NULL,
   `country_athlete` VARCHAR(45) NOT NULL,
-  `discipline_athlete` VARCHAR(45) NOT NULL,
-  PRIMARY KEY (`id_athlete`));
+  `discipline_athlete` VARCHAR(45) NOT NULL);
   
   CREATE TABLE `db_olimpiada`.`tb_coaches` (
-  `id_coaches` INT NOT NULL AUTO_INCREMENT,
   `name_coach` VARCHAR(45) NOT NULL,
   `country_coach` VARCHAR(45) NOT NULL,
   `discipline_coach` VARCHAR(45) NOT NULL,
-  `event_coach` VARCHAR(45) NULL,
-  PRIMARY KEY (`id_coaches`));
+  `event_coach` VARCHAR(45) NULL);
 
 CREATE TABLE `db_olimpiada`.`tb_entry-genders` (
-  `id_entries` INT NOT NULL AUTO_INCREMENT,
   `discipline_entry` VARCHAR(45) NOT NULL,
   `female` INT(100) NOT NULL DEFAULT 0,
   `male` INT(100) NOT NULL DEFAULT 0,
-  `total` INT(200) NOT NULL DEFAULT 0,
-  PRIMARY KEY (`id_entries`));
+  `total` INT(200) NOT NULL DEFAULT 0);
+
+
+DROP TABLE tb_medals;
 
 CREATE TABLE `db_olimpiada`.`tb_medals` (
-  `rank` INT NOT NULL AUTO_INCREMENT,
+  `rank` INT NOT NULL,
   `medal_team` NVARCHAR(50) NOT NULL,
   `medal_gold` INT(50) NOT NULL DEFAULT 0,
   `medal_silver` INT(50) NOT NULL DEFAULT 0,
   `medal_bronze` INT(50) NOT NULL DEFAULT 0,
   `medal_total` INT(120) NOT NULL DEFAULT 0,
-  `rank_by_total` INT(90) NOT NULL,
-  PRIMARY KEY (`rank`));
+  `rank_by_total` INT(90) NOT NULL);
   
   CREATE TABLE `db_olimpiada`.`tb_teams` (
-  `id_teams` INT NOT NULL AUTO_INCREMENT,
   `team_country` VARCHAR(45) NOT NULL,
   `team_discipline` VARCHAR(45) NOT NULL,
   `team_event` VARCHAR(15) NOT NULL,
-  PRIMARY KEY (`id_teams`));
+  `team_noc` VARCHAR(45) NOT NULL);
+
+-------------------------------------------------------------------------------------------------
+
+-- 1. Quem são os técnicos (coaches) e atletas das equipes de Handball?
+SELECT c.name_coach Coaches, a.name_athlete Athlets FROM tb_coaches c
+INNER JOIN tb_athlets a on c.country_coach = a.country_athlete
+WHERE c.discipline_coach = "Handball";
+
+-- 2. Quem são os técnicos (coaches) dos atletas da Austrália que receberam medalhas de Ouro?
+
+/* Não é possível realizar essa consulta porque os dados das tabelas não proporcionam
+a informação da colocação das equipes mas sim apenas o número de medalhas que não podem
+diferenciar os ganhadores dessa medalha. Então, se um país tiver 1 medalha de ouro e 1 medalha
+de prata; e dois times, futebol e vôlei, não há como saber qual equipe levou qual medalha pela
+falta de informação acerca da posição de cada equipe.*/
+
+-- 3. Quais países tiveram mulheres conquistando medalhas de Ouro?
+
+/*Pelo mesmo motivo da atividade 2, não há como diferenciar as medalhas ganhas pelos
+atletas homens e as atletas mulheres, dessa maneira, não é possível realizar essa
+pesquisa*/
+
+-- 4. Quais atletas da Noruega receberam medalhas de Ouro ou Prata?
+
+/*Novamente, não há como diferenciar quais foram os ganhadores das medalhas de prata
+e os de ouro pela falta de especificação das colocações das equipes nos eventos*/
+
+-- 5. Quais atletas Brasileiros não receberam medalhas?
+
+/*Não há maneira de identificar os ganhadores de medalhas  [ 
+
+
+	
